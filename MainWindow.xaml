@@ -1,0 +1,24 @@
+﻿<Window x:Class="Essensplangenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Essensplangenerator"
+        mc:Ignorable="d"
+        Title="Essensplansgenetator" Height="555" Width="830">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition Width="4*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="57*"/>
+			<RowDefinition Height="20*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<Button x:Name="Recipe_Button" Click="Button_Click" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" FontSize="14" Grid.Row="1" Grid.ColumnSpan="1">Add Recipe
+		</Button>
+		<TextBlock Margin="240,217,365,22" x:Name="Text1" Grid.Column="1">Hello</TextBlock>
+		<CheckBox x:Name="AllowRepeatableRecipes">Repeating Recipes</CheckBox>
+	</Grid>
+</Window>
