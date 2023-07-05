@@ -6,23 +6,38 @@
         xmlns:local="clr-namespace:Essensplangenerator"
         mc:Ignorable="d"
         Title="Add Recipe" Height="300" Width="420">
+	<Window.Resources>
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+	</Window.Resources>
 	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="22*"/>
-			<RowDefinition Height="39*"/>
-			<RowDefinition Height="23*"/>
-			<RowDefinition Height="45*"/>
-			<RowDefinition Height="119*"/>
-			<RowDefinition Height="36*"/>
-		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="22*"/>
+			<RowDefinition Height="17*"/>
+			<RowDefinition Height="22*"/>
+			<RowDefinition Height="23*"/>
+			<RowDefinition Height="20*"/>
+			<RowDefinition Height="25*"/>
+			<RowDefinition Height="119*"/>
+			<RowDefinition Height="36*"/>
+		</Grid.RowDefinitions>
 		<TextBlock x:Name="Header" Grid.Row="0">Add a Recipe</TextBlock>
-		<TextBox x:Name="RecipeName" Grid.Row="1" >Recipe Name</TextBox>
-		<CheckBox x:Name="HasLink_" Grid.Row="2">Include Link?</CheckBox>
-		<TextBox x:Name="RecipeLink" Grid.Row="3" Visibility="{Binding IsChecked, ElementName=HasLink_}">Link to Recipe</TextBox>
-		<Button Grid.Row="5">Save Recipe</Button>
+		<TextBlock x:Name="RecipeNameHint" Grid.Row="1"> Enter Recipe Name below </TextBlock>
+		<TextBox x:Name="RecipeName" Grid.Row="2" Background="Transparent"></TextBox>
+		<Button x:Name="SaveRecipe" Click="SaveButton"  Grid.Row="7" Grid.ColumnSpan="2">Save Recipe</Button>
+		<TextBlock Grid.Column="2">Which Allergens are in this recipe?</TextBlock>
+		<StackPanel Name="AllergenCheckList" Grid.Column="2" Grid.RowSpan="7" Grid.Row="1">
+			<CheckBox>Gluten</CheckBox>
+			<CheckBox>Shellfish</CheckBox>
+			<CheckBox>Peanuts</CheckBox>
+			<CheckBox>Lactose</CheckBox>
+			<CheckBox>Celery</CheckBox>
+			<CheckBox>Tree Nuts</CheckBox>
+			<CheckBox>Sesame</CheckBox>
+			<CheckBox>Soy</CheckBox>
+		</StackPanel>
 	</Grid>
 </Window>

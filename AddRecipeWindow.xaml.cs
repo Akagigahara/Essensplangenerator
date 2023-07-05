@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Essensplangenerator
 {
@@ -19,14 +9,77 @@ namespace Essensplangenerator
 	/// </summary>
 	public partial class AddRecipeWindow : Window
 	{
+		/// <summary>
+		/// Handles the setup of the AddRecipe Window
+		/// </summary>
 		public AddRecipeWindow()
 		{
 			InitializeComponent();
 		}
 
-		public void SaveButton()
+		/// <summary>
+		/// Event function that handles the event sent by <see cref="SaveRecipe"/>
+		/// </summary>
+		/// <param name="sender">Unused</param>
+		/// <param name="e">Unused</param>
+		public void SaveButton(object sender, RoutedEventArgs e)
 		{
+			Recipe.AllergenList FlagsSet = 0;
+			foreach(CheckBox Box in AllergenCheckList.Children) //This foreach loop cycles through the
+			{													//allergen checkboxes and applies the applicable
+				if(Box.IsChecked == true)						//bit-flag
+				{
+					switch(Box.Content) 
+					{
+						case "Gluten": 
+							FlagsSet |= Recipe.AllergenList.Gluten;
+							break;
+						case "Shellfish": 
+							FlagsSet |= Recipe.AllergenList.Shellfish;
+							break;
+						case "Peanuts":
+							FlagsSet |= Recipe.AllergenList.Peanuts;
+							break;
+						case "Lactose":
+							FlagsSet |= Recipe.AllergenList.Lactose;
+							break;
+						case "Celery":
+							FlagsSet |= Recipe.AllergenList.Celery;
+							break;
+						case "Tree Nuts":
+							FlagsSet |= Recipe.AllergenList.TreeNuts;
+							break;
+						case "Sesame":
+							FlagsSet |= Recipe.AllergenList.Sesame;
+							break;
+						case "Soy":
+							FlagsSet |= Recipe.AllergenList.Soy;
+							break;
+					}
+				}
+			}
 
+			Recipe NewRecipe = new()
+			{
+				RecipeName = RecipeName.Text,
+				Allergens = FlagsSet,
+			};
+
+			List<Recipe> Recipes = (List<Recipe>)(App.Current.Properties["Recipes"] ?? new());
+			Recipes.Add(NewRecipe);
+			RecipeFileHandler.SaveRecipes(NewRecipe);
+			App.Current.Properties["Recipes"] = Recipes;
+
+			foreach(Window Window in App.Current.Windows)
+			{
+				if (Window is MainWindow)
+				{
+#pragma warning disable CS8602 // Dereference of a possibly null reference. Cannot otherwise be removed, it is impossible for Window to evaluate as null.
+					(Window as MainWindow).AddRecipeToRecipeList(NewRecipe);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+				}
+			}
+			this.Close();
 		}
 	}
 }
