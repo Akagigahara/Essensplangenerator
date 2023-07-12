@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Essensplangenerator"
-        mc:Ignorable="d"
+		mc:Ignorable="d"
         Title="RemoveRecipeWindow" 
 		Height="450" Width="800"
 		MinHeight="280" MinWidth="460"
@@ -20,8 +19,8 @@
 			<RowDefinition Height="85*"/>
 			<RowDefinition Height="85*"/>
 		</Grid.RowDefinitions>
-		<Button Name="RemoveRecipe"  Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="1" Click="RemoveRecipe">Remove Selected Recipes</Button>
-		<Button Name="Return" Grid.Row="2" Grid.RowSpan="1" Grid.ColumnSpan="1" Click="Return">Go back to Planer</Button>
+		<Button Name="RemoveRecipeButton"  Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="1" Click="RemoveRecipe">Remove Selected Recipes</Button>
+		<Button Name="ReturnButton" Grid.Row="2" Grid.RowSpan="1" Grid.ColumnSpan="1" Click="Return">Go back to Planer</Button>
 		<ScrollViewer Grid.Column="1" Grid.RowSpan="3">
 			<StackPanel Name="RecipeList"></StackPanel>
 		</ScrollViewer>

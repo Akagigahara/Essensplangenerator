@@ -9,13 +9,12 @@ namespace Essensplangenerator
 	/// </summary>
 	public partial class AddRecipeWindow : Window
 	{
+		readonly RecipeFileHandler FileHandler = new();
+
 		/// <summary>
 		/// Handles the setup of the AddRecipe Window
 		/// </summary>
-		public AddRecipeWindow()
-		{
-			InitializeComponent();
-		}
+		public AddRecipeWindow() => InitializeComponent();
 
 		/// <summary>
 		/// Event function that handles the event sent by <see cref="SaveRecipe"/>
@@ -27,7 +26,7 @@ namespace Essensplangenerator
 			Recipe.AllergenList FlagsSet = 0;
 			foreach(CheckBox Box in AllergenCheckList.Children) //This foreach loop cycles through the
 			{													//allergen checkboxes and applies the applicable
-				if(Box.IsChecked == true)						//bit-flag
+				if(Box.IsChecked is true)						//bit-flag
 				{
 					switch(Box.Content) 
 					{
@@ -65,10 +64,10 @@ namespace Essensplangenerator
 				Allergens = FlagsSet,
 			};
 
-			List<Recipe> Recipes = (List<Recipe>)(App.Current.Properties["Recipes"] ?? new());
+			List<Recipe> Recipes = App.recipes;
 			Recipes.Add(NewRecipe);
-			RecipeFileHandler.SaveRecipes(NewRecipe);
-			App.Current.Properties["Recipes"] = Recipes;
+			FileHandler.SaveRecipes(NewRecipe);
+			App.recipes = Recipes;
 
 			foreach(Window Window in App.Current.Windows)
 			{

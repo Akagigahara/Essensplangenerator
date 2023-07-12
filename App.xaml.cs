@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 
 namespace Essensplangenerator
@@ -13,5 +8,6 @@ namespace Essensplangenerator
 	/// </summary>
 	public partial class App : Application
 	{
+		static public List<Recipe> recipes = RecipeFileHandler.LoadSavedRecipes();
 	}
 }

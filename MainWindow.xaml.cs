@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
+using System.Linq;
 
 namespace Essensplangenerator
 {
@@ -14,7 +14,7 @@ namespace Essensplangenerator
 		/// <summary>
 		/// List of Recipes registered in the App.
 		/// </summary>
-		readonly List<Recipe> Recipes;
+		readonly List<Recipe> Recipes = App.recipes;
 
 		/// <summary>
 		/// The Main Window of the Application.
@@ -23,7 +23,6 @@ namespace Essensplangenerator
 		{
 			InitializeComponent();
 			Recipes = RecipeFileHandler.LoadSavedRecipes();
-			App.Current.Properties["Recipes"] = Recipes;
 			AddRecipesToRecipeList();
 		}
 
@@ -44,7 +43,8 @@ namespace Essensplangenerator
 		/// <param name="e"></param>
 		private void RemoveRecipe(object sender, RoutedEventArgs e)
 		{
-			new RemoveRecipeWindow().ShowDialog();
+			RemoveRecipeWindow removeWindow = new();
+			removeWindow.ShowDialog();
 		}
 
 		/// <summary>
@@ -57,7 +57,8 @@ namespace Essensplangenerator
 				CheckBox checkBox = new()
 				{
 					Content = Recipe.RecipeName + " - " + Recipe.Allergens,
-				}; 
+					IsChecked = true,
+				};
 
 				SavedRecipeList.Children.Insert(0, checkBox);
 			}
@@ -68,12 +69,29 @@ namespace Essensplangenerator
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		public void GeneratePlan(object sender, RoutedEventArgs e)
+		private void GeneratePlan(object sender, RoutedEventArgs e)
 		{
+			List<Recipe> recipesToGenerateWith = new();
+			foreach(CheckBox checkBox in SavedRecipeList.Children)
+			{
+				if(checkBox.IsChecked is true)
+				{
+					foreach (Recipe Recipe in Recipes)
+					{
+						if(checkBox.Content.ToString()!.Contains(Recipe.RecipeName))
+						{
+							recipesToGenerateWith.Add(Recipe);
+						}
+					}
+				}
+			}
+
 			// Options for the generation
 			Dictionary<String, Object> GenerationOptions = new()
 			{
-				{ "AllowRepeatingRecipes", AllowRepeatableRecipes }
+				{ "AllowRepeatingRecipes", AllowRepeatableRecipes.IsChecked! },
+				{ "DaysToGenerate", false},
+				{ "RecipesToUse", recipesToGenerateWith }
 			};
 
 			new GeneratedPlanWindow(GenerationOptions).ShowDialog();
@@ -93,5 +111,16 @@ namespace Essensplangenerator
 			SavedRecipeList.Children.Insert(0, recipeEntry);
 		}
 
+		/// <summary>
+		/// The function used to refresh the Window, called by <see cref="Refresh_Button"/>
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void RefreshWindow(object sender, RoutedEventArgs e)
+		{
+			MainWindow mainWindow = new();
+			mainWindow.Show();
+			Close();
+		}
 	}
 }

@@ -1,31 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Essensplangenerator.AddRecipeWindow" BaseTypeListCollapsed="true">
-    <Position X="4.75" Y="1" Width="1.5" />
+    <Position X="4.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AddRecipeWindow.xaml.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.1" />
   </Class>
   <Class Name="Essensplangenerator.GeneratedPlanWindow" BaseTypeListCollapsed="true">
     <Position X="8.25" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAA=</HashCode>
+      <HashCode>ABABAAAAAAAAAAAAAAAAIAAAAAAAAAAAQAAAAEAAAAA=</HashCode>
       <FileName>GeneratedPlanWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Essensplangenerator.MainWindow" BaseTypeListCollapsed="true">
-    <Position X="4.75" Y="2.75" Width="1.5" />
+    <Position X="4.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAMIAAAACAgAAAAAAAAIAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAEAAAAAAAAAMIAAAACAgAAAAAAAAIAAAAAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.175" />
   </Class>
   <Class Name="Essensplangenerator.Recipe">
-    <Position X="6.5" Y="1.25" Width="1.5" />
+    <Position X="6.5" Y="3" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -44,9 +44,17 @@
   <Class Name="Essensplangenerator.RecipeFileHandler">
     <Position X="8.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAgAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAAAAAAAAAAEAAAAAAAAgAAAAAAAAAEAAAA=</HashCode>
       <FileName>RecipeFileHandler.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Essensplangenerator.RemoveRecipeWindow">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEIIAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>RemoveRecipeWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -5,7 +5,6 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.TextFormatting;
 
 namespace Essensplangenerator
 {
@@ -14,7 +13,7 @@ namespace Essensplangenerator
 	/// </summary>
 	public partial class GeneratedPlanWindow : Window
 	{
-		List<List<List<TextBlock>>> Days;
+		readonly List<List<List<TextBlock>>> Days;
 
 		/// <summary>
 		/// Function to initialize the GeneratedPlan Window
@@ -23,7 +22,6 @@ namespace Essensplangenerator
 		public GeneratedPlanWindow(Dictionary<String, Object> GenerationOptions)
 		{
 			InitializeComponent();
-			List<Recipe> Recipes = (List<Recipe>)(App.Current.Properties["Recipes"] ?? new());
 
 			//This region is for setting up and sorting the TextBlocks in an easily accessible format
 			#region Days sorting
@@ -58,13 +56,14 @@ namespace Essensplangenerator
 			Days = new() { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
 			#endregion
 			Random rand = new(); // New Random object to obtain random Recipe from Recipes
+			List<Recipe> Recipes = (List<Recipe>)GenerationOptions["RecipesToUse"];
 
 			foreach (var day in Days)
 			{
 				foreach(var course in day)
 				{
 					Recipe recipe = Recipes[rand.Next(Recipes.Count)];
-					if ((GenerationOptions["AllowRepeatingRecipes"] as CheckBox)!.IsChecked ?? false)
+					if ((bool)GenerationOptions["AllowRepeatingRecipes"])
 					{
 						Recipes.Remove(recipe);
 					}
@@ -97,6 +96,10 @@ namespace Essensplangenerator
 			}
 		}
 
+		/// <summary>
+		/// Formats the Plan as as a string to be saved.
+		/// </summary>
+		/// <returns>The stringified version of the plan</returns>
 		private string GetContentAsString()
 		{
 			var content = new StringBuilder();
