@@ -21,7 +21,7 @@
 		</Grid.RowDefinitions>
 		<Button Name="RemoveRecipeButton"  Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="1" Click="RemoveRecipe">Remove Selected Recipes</Button>
 		<Button Name="ReturnButton" Grid.Row="2" Grid.RowSpan="1" Grid.ColumnSpan="1" Click="Return">Go back to Planer</Button>
-		<ScrollViewer Grid.Column="1" Grid.RowSpan="3">
+		<ScrollViewer Grid.Column="1" Grid.RowSpan="3" Background="LightGray">
 			<StackPanel Name="RecipeList"></StackPanel>
 		</ScrollViewer>
 	</Grid>

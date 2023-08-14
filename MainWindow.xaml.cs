@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
+using System.Windows.Input;
+using System.Text.RegularExpressions;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Essensplangenerator
 {
@@ -71,30 +74,28 @@ namespace Essensplangenerator
 		/// <param name="e"></param>
 		private void GeneratePlan(object sender, RoutedEventArgs e)
 		{
-			List<Recipe> recipesToGenerateWith = new();
-			foreach(CheckBox checkBox in SavedRecipeList.Children)
+			GenerationOptions GenerationOptions = new()
 			{
-				if(checkBox.IsChecked is true)
-				{
-					foreach (Recipe Recipe in Recipes)
-					{
-						if(checkBox.Content.ToString()!.Contains(Recipe.RecipeName))
-						{
-							recipesToGenerateWith.Add(Recipe);
-						}
-					}
-				}
-			}
-
-			// Options for the generation
-			Dictionary<String, Object> GenerationOptions = new()
-			{
-				{ "AllowRepeatingRecipes", AllowRepeatableRecipes.IsChecked! },
-				{ "DaysToGenerate", false},
-				{ "RecipesToUse", recipesToGenerateWith }
+				AllowRepeatingRecipes = AllowRepeatableRecipes.IsChecked ?? false,
+				MealsInADay = int.Parse(MealsInDay.Text),
 			};
 
-			new GeneratedPlanWindow(GenerationOptions).ShowDialog();
+			foreach(CheckBox checkBox in (from CheckBox recipe in SavedRecipeList.Children where (recipe.IsChecked ?? false) select recipe))
+			{
+				GenerationOptions.RecipesToUse.Add((from Recipe recipe in Recipes where checkBox.Content.ToString()!.Contains(recipe.RecipeName) select recipe).First());
+			}
+
+
+			//Readiness checks
+			//This check is to prevent users from accidentally crashing or inducing unexpected behavior by not supplying enough recipes to not use AllowRepeatingRecipes
+			if(GenerationOptions.MealsInADay * 7 >= GenerationOptions.RecipesToUse.Count && !GenerationOptions.AllowRepeatingRecipes)
+			{
+				MessageBox.Show($"The required number of {GenerationOptions.MealsInADay * 7} Recipes is not met. Add more recipes or allow repeating recipes.");
+			}
+			else
+			{
+				new GeneratedPlanWindow(GenerationOptions).ShowDialog();
+			}
 		}
 
 		/// <summary>
@@ -122,5 +123,11 @@ namespace Essensplangenerator
 			mainWindow.Show();
 			Close();
 		}
-	}
+
+		private void ValidateInput(object sender, TextCompositionEventArgs e)
+		{
+			Regex Valid = new("[^0-9.-]+");
+			e.Handled = Valid.IsMatch(e.Text);
+		}
+    }
 }

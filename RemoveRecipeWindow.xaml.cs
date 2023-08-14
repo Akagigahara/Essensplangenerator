@@ -12,6 +12,7 @@ namespace Essensplangenerator
 		/// The list of saved recipes.
 		/// </summary>
 		readonly List<Recipe> Recipes = App.recipes;
+
 		/// <summary>
 		/// An instance of the FileHandler class.
 		/// </summary>

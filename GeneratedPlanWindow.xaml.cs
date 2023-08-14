@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace Essensplangenerator
 {
@@ -13,19 +15,19 @@ namespace Essensplangenerator
 	/// </summary>
 	public partial class GeneratedPlanWindow : Window
 	{
-		readonly List<List<List<TextBlock>>> Days;
+		//readonly List<List<List<TextBlock>>> Days;
 
 		/// <summary>
 		/// Function to initialize the GeneratedPlan Window
 		/// </summary>
 		/// <param name="GenerationOptions">The Dictionary in which the Options to generate the plan are stored</param>
-		public GeneratedPlanWindow(Dictionary<String, Object> GenerationOptions)
+		public GeneratedPlanWindow(GenerationOptions GenerationOptions)
 		{
 			InitializeComponent();
 
 			//This region is for setting up and sorting the TextBlocks in an easily accessible format
 			#region Days sorting
-			List<TextBlock> MondayLunch = new(){ LunchMondayRecipe, LunchMondayAllergens};
+			/*List<TextBlock> MondayLunch = new(){ LunchMondayRecipe, LunchMondayAllergens};
 			List<TextBlock> MondayDinner = new() { DinnerMondayRecipe, DinnerMondayAllergens };
 			List<List<TextBlock>> Monday = new() { MondayLunch, MondayDinner };
 
@@ -53,12 +55,26 @@ namespace Essensplangenerator
 			List<TextBlock> SundayDinner = new() { DinnerSundayRecipe, DinnerSundayAllergens };
 			List<List<TextBlock>> Sunday = new() { SundayLunch, SundayDinner };
 
-			Days = new() { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+			Days = new() { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};*/
 			#endregion
 			Random rand = new(); // New Random object to obtain random Recipe from Recipes
-			List<Recipe> Recipes = (List<Recipe>)GenerationOptions["RecipesToUse"];
+			List<Recipe> Recipes = GenerationOptions.RecipesToUse!;
 
-			foreach (var day in Days)
+			foreach(int Day in Enumerable.Range(0, MealGrid.ColumnDefinitions.Count))
+			{ 
+				foreach(int Meal in Enumerable.Range(1, GenerationOptions.MealsInADay))
+				{
+					Recipe recipe = Recipes[rand.Next(Recipes.Count)];
+					TextBlock toBeAdded = new( new Run(recipe.RecipeName));
+					toBeAdded.Inlines.Add(new LineBreak());
+					toBeAdded.Inlines.Add(new Run(recipe.Allergens.ToString()));
+					Grid.SetColumn(toBeAdded, Day);
+					Grid.SetRow(toBeAdded, Meal);
+					MealGrid.RowDefinitions.Add(new RowDefinition());
+					MealGrid.Children.Add(toBeAdded);
+				}
+			}
+		/*	foreach (var day in Days)
 			{
 				foreach(var course in day)
 				{
@@ -71,6 +87,7 @@ namespace Essensplangenerator
 					course[1].Text = recipe.Allergens.ToString();
 				}
 			}
+		*/
 		}
 
 		/// <summary>
@@ -82,7 +99,7 @@ namespace Essensplangenerator
 		{
 			SaveFileDialog saveDialog = new()
 			{
-				FileName = "MealPslan",
+				FileName = "MealPlan",
 				Filter = "",
 				Title = "Save Meal Plan...",
 			};
@@ -103,13 +120,13 @@ namespace Essensplangenerator
 		private string GetContentAsString()
 		{
 			var content = new StringBuilder();
-			foreach(var day in Days)
+			/*foreach(var day in Days)
 			{
 				foreach(var course in day)
 				{
 					content.Append(course[0].Text + course[1].Text + Environment.NewLine);
 				}
-			}
+			}*/
 			return content.ToString();
 		}
 
