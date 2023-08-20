@@ -26,7 +26,12 @@
 		</ScrollViewer>
 		<StackPanel>
 			<CheckBox Name="AllowRepeatableRecipes" Grid.RowSpan="1">Repeating Recipes</CheckBox>
-			<TextBox x:Name="MealsInDay" PreviewTextInput="ValidateInput">3</TextBox>
+			<TextBlock/>
+			<TextBlock HorizontalAlignment="Left" Text="How many meals per Day?:"/> 
+			<TextBox x:Name="MealsInDay" PreviewTextInput="ValidateInput" Text="3" TextAlignment="Right"/>
+			<TextBlock/>
+			<TextBlock Text="How many weeks to generate?:"/>
+			<TextBox x:Name="WeeksToGenerate" PreviewTextInput="ValidateInput" Text="1" TextAlignment="Right"/>
 		</StackPanel>
 	</Grid>
 </Window>

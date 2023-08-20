@@ -24,9 +24,13 @@ namespace Essensplangenerator
 		public void SaveButton(object sender, RoutedEventArgs e)
 		{
 			Recipe.AllergenList FlagsSet = 0;
-			foreach(CheckBox Box in AllergenCheckList.Children) //This foreach loop cycles through the
-			{													//allergen checkboxes and applies the applicable
-				if(Box.IsChecked is true)						//bit-flag
+
+			//This foreach loop cycles through the
+			//allergen checkboxes and applies the applicable
+			//bit-flag.
+			foreach (CheckBox Box in AllergenCheckList.Children)
+			{												
+				if(Box.IsChecked is true)					
 				{
 					switch(Box.Content) 
 					{
@@ -58,27 +62,19 @@ namespace Essensplangenerator
 				}
 			}
 
+			//Creates the newly registered user-defined recipe as a Recipe object.
 			Recipe NewRecipe = new()
 			{
 				RecipeName = RecipeName.Text,
 				Allergens = FlagsSet,
 			};
 
-			List<Recipe> Recipes = App.recipes;
-			Recipes.Add(NewRecipe);
-			FileHandler.SaveRecipes(NewRecipe);
-			App.recipes = Recipes;
+			List<Recipe> Recipes = App.recipes; // Loads the recipe list from the app's memory.
+			Recipes.Add(NewRecipe); //User-defined recipe is added to the recipe list.
+			FileHandler.SaveRecipes(NewRecipe); //Recipe is saved in SavedRecipes.json.
+			App.recipes = Recipes; //Saves the recipe to the app's memory.
 
-			foreach(Window Window in App.Current.Windows)
-			{
-				if (Window is MainWindow)
-				{
-#pragma warning disable CS8602 // Dereference of a possibly null reference. Cannot otherwise be removed, it is impossible for Window to evaluate as null.
-					(Window as MainWindow).AddRecipeToRecipeList(NewRecipe);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-				}
-			}
-			this.Close();
+			this.Close(); //Closes the window.
 		}
 	}
 }

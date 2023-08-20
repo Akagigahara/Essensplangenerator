@@ -9,6 +9,9 @@ namespace Essensplangenerator
 
 	class RecipeFileHandler
 	{	
+		/// <summary>
+		/// The options for the JsonSerializer.
+		/// </summary>
 		readonly JsonSerializerOptions options = new()
 		{
 			WriteIndented = true,
@@ -24,7 +27,7 @@ namespace Essensplangenerator
 			List<Recipe> Recipes = new();
 			try
 			{
-				Recipes = JsonSerializer.Deserialize<List<Recipe>>(File.ReadAllText("SavedRecipes.json"))!;
+				Recipes = JsonSerializer.Deserialize<List<Recipe>>(File.ReadAllText("SavedRecipes.json"))!; //Loads recipe list from SavedRecipes.json.
 			}
 			catch (JsonException error)
 			{
@@ -75,7 +78,7 @@ namespace Essensplangenerator
 			List<Recipe> Recipes = App.recipes;
 			Recipes.Remove(RecipeToRemove);
 			File.Delete("SavedRecipes.json");
-			FileStream RecipeFile = File.Create("SavedRecipes.json");
+			FileStream RecipeFile = File.Create("SavedRecipes.json"); 
 			RecipeFile.Write(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(Recipes, options)));
 			RecipeFile.Close();
 		}

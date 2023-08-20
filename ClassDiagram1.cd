@@ -11,7 +11,7 @@
   <Class Name="Essensplangenerator.GeneratedPlanWindow" BaseTypeListCollapsed="true">
     <Position X="8.25" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABABAAAAAAAAAAAAAAAAIAAAAAAAAAAAQAAAAEAAAAA=</HashCode>
+      <HashCode>ARABAAAAAAAAAAAAAAAIAAAAAIAAAAAAAAAAAMAAAAA=</HashCode>
       <FileName>GeneratedPlanWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -19,7 +19,7 @@
   <Class Name="Essensplangenerator.MainWindow" BaseTypeListCollapsed="true">
     <Position X="4.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAAAAAAAAMIAAAACAgAAAAAAAAIAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAEAAAAAACAAMIAAAACAgAAAAAAAAIAAAAAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.175" />
@@ -42,7 +42,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Essensplangenerator.RecipeFileHandler">
-    <Position X="8.25" Y="3.75" Width="1.5" />
+    <Position X="8.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAEAAAAAAAAgAAAAAAAAAEAAAA=</HashCode>
       <FileName>RecipeFileHandler.cs</FileName>

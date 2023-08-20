@@ -11,9 +11,24 @@ namespace Essensplangenerator
 	/// </summary>
 	public class GenerationOptions
 	{
+		/// <summary>
+		/// Whether the user allows repeating recipes or not.
+		/// </summary>
 		public bool AllowRepeatingRecipes;
-		public int DaysToGenerate;
+
+		/// <summary>
+		/// How many weeks the user wants to generate.
+		/// </summary>
+		public int WeeksToGenerate;
+
+		/// <summary>
+		/// How many meals in a day the user wants to have.
+		/// </summary>
 		public int MealsInADay;
+
+		/// <summary>
+		/// The recipes the user chose.
+		/// </summary>
 		public List<Recipe> RecipesToUse = new();
 	}
 }

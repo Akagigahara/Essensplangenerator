@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace Essensplangenerator
 	/// </summary>
 	public partial class GeneratedPlanWindow : Window
 	{
-		//readonly List<List<List<TextBlock>>> Days;
+		private int Week = 0;
+		private List<Grid> GridList = new();
 
 		/// <summary>
 		/// Function to initialize the GeneratedPlan Window
@@ -25,69 +27,7 @@ namespace Essensplangenerator
 		{
 			InitializeComponent();
 
-			//This region is for setting up and sorting the TextBlocks in an easily accessible format
-			#region Days sorting
-			/*List<TextBlock> MondayLunch = new(){ LunchMondayRecipe, LunchMondayAllergens};
-			List<TextBlock> MondayDinner = new() { DinnerMondayRecipe, DinnerMondayAllergens };
-			List<List<TextBlock>> Monday = new() { MondayLunch, MondayDinner };
-
-			List<TextBlock> TuesdayLunch = new() { LunchTuesdayRecipe, LunchTuesdayAllergens };
-			List<TextBlock> TuesdayDinner = new() { DinnerTuesdayRecipe, DinnerTuesdayAllergens };
-			List<List<TextBlock>> Tuesday = new() { TuesdayLunch, TuesdayDinner };
-
-			List<TextBlock> WednesdayLunch = new() { LunchWednesdayRecipe, LunchWednesdayAllergens };
-			List<TextBlock> WednesdayDinner = new() { DinnerWednesdayRecipe,  DinnerWednesdayAllergens };
-			List<List<TextBlock>> Wednesday = new() { WednesdayLunch, WednesdayDinner };
-
-			List<TextBlock> ThursdayLunch = new() { LunchThursdayRecipe, LunchThursdayAllergens };
-			List<TextBlock> ThursdayDinner = new() { DinnerThursdayRecipe, DinnerThursdayAllergens };
-			List<List<TextBlock>> Thursday = new() { ThursdayLunch, ThursdayDinner};
-
-			List<TextBlock> FridayLunch = new() { LunchFridayRecipe, LunchFridayAllergens };
-			List<TextBlock> FridayDinner = new() { DinnerFridayRecipe, DinnerFridayAllergens };
-			List<List<TextBlock>> Friday = new() { FridayLunch, FridayDinner };
-
-			List<TextBlock> SaturdayLunch = new() { LunchSaturdayRecipe, LunchSaturdayAllergens };
-			List<TextBlock> SaturdayDinner = new() { DinnerSaturdayRecipe, DinnerSaturdayAllergens };
-			List<List<TextBlock>> Saturday = new() {  SaturdayLunch, SaturdayDinner };
-
-			List<TextBlock> SundayLunch = new() { LunchSundayRecipe, LunchSundayAllergens };
-			List<TextBlock> SundayDinner = new() { DinnerSundayRecipe, DinnerSundayAllergens };
-			List<List<TextBlock>> Sunday = new() { SundayLunch, SundayDinner };
-
-			Days = new() { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};*/
-			#endregion
-			Random rand = new(); // New Random object to obtain random Recipe from Recipes
-			List<Recipe> Recipes = GenerationOptions.RecipesToUse!;
-
-			foreach(int Day in Enumerable.Range(0, MealGrid.ColumnDefinitions.Count))
-			{ 
-				foreach(int Meal in Enumerable.Range(1, GenerationOptions.MealsInADay))
-				{
-					Recipe recipe = Recipes[rand.Next(Recipes.Count)];
-					TextBlock toBeAdded = new( new Run(recipe.RecipeName));
-					toBeAdded.Inlines.Add(new LineBreak());
-					toBeAdded.Inlines.Add(new Run(recipe.Allergens.ToString()));
-					Grid.SetColumn(toBeAdded, Day);
-					Grid.SetRow(toBeAdded, Meal);
-					MealGrid.RowDefinitions.Add(new RowDefinition());
-					MealGrid.Children.Add(toBeAdded);
-				}
-			}
-		/*	foreach (var day in Days)
-			{
-				foreach(var course in day)
-				{
-					Recipe recipe = Recipes[rand.Next(Recipes.Count)];
-					if ((bool)GenerationOptions["AllowRepeatingRecipes"])
-					{
-						Recipes.Remove(recipe);
-					}
-					course[0].Text = recipe.RecipeName;
-					course[1].Text = recipe.Allergens.ToString();
-				}
-			}
-		*/
+			GeneratePlan(GenerationOptions);
 		}
 
 		/// <summary>
@@ -114,19 +54,109 @@ namespace Essensplangenerator
 		}
 
 		/// <summary>
+		/// The main logic behind creating the plan.
+		/// </summary>
+		/// <param name="options"> The <see cref="GenerationOptions"/> used for generation.</param>
+		private void GeneratePlan(GenerationOptions options)
+		{
+			Random rand = new(); //In
+			foreach(int Week in Enumerable.Range(0, options.WeeksToGenerate))
+			{
+				Grid grid = new();
+				foreach(int Day in Enumerable.Range(0, 7))
+				{
+					grid.ColumnDefinitions.Add(new());
+					foreach(int Meal in Enumerable.Range(0, options.MealsInADay))
+					{
+						Recipe recipe = options.RecipesToUse[rand.Next(options.RecipesToUse.Count)];
+						if(!options.AllowRepeatingRecipes)
+						{
+							options.RecipesToUse.Remove(recipe);
+						}
+						TextBlock toBeAdded = new(new Run(recipe.RecipeName));
+						toBeAdded.Inlines.Add(new LineBreak());
+						toBeAdded.Inlines.Add(new Run(recipe.Allergens.ToString()));
+						Grid.SetColumn(toBeAdded, Day);
+						Grid.SetRow(toBeAdded, Meal);
+						grid.RowDefinitions.Add(new());
+						grid.Children.Add(toBeAdded);
+					}
+				}
+				GridList.Add(grid);
+			}
+			
+			MealGrid.Children.Add(GridList[0]);
+			Previous.IsEnabled = false;
+			if(Week + 1 == GridList.Count)
+			{
+				Next.IsEnabled = false;
+			}
+		}
+
+		/// <summary>
+		/// An event function that changes the current week displayed.
+		/// </summary>
+		/// <param name="sender">The button that sends the event.</param>
+		/// <param name="e">Unused.</param>
+		private void ChangeWeek(object sender, RoutedEventArgs e)
+		{
+			Button trigger = (sender as Button)!; //narrows down what type of object sender will be.
+			switch(trigger.Name.ToLower())
+			{
+				case "previous":
+					MealGrid.Children.Remove(GridList[Week]);
+					MealGrid.Children.Add(GridList[--Week]);
+					break;
+				case "next":
+					MealGrid.Children.Remove(GridList[Week]);
+					MealGrid.Children.Add(GridList[++Week]);
+					break;
+			}
+
+			//Disables the Previous button when the current displayed week is 0.
+			if (Week == 0)
+			{
+				Previous.IsEnabled = false;
+			}
+			else
+			{
+				Previous.IsEnabled = true;
+			}
+
+			//Disables the Next button when the current displayed week is the last generated week.
+			if(Week == GridList.Count-1)
+			{
+				Next.IsEnabled = false;
+			}
+			else
+			{
+				Next.IsEnabled = true;
+			}
+
+		}
+
+		/// <summary>
 		/// Formats the Plan as as a string to be saved.
 		/// </summary>
 		/// <returns>The stringified version of the plan</returns>
 		private string GetContentAsString()
 		{
 			var content = new StringBuilder();
-			/*foreach(var day in Days)
+			foreach(int week in Enumerable.Range(0,GridList.Count))
 			{
-				foreach(var course in day)
+				foreach(int day in Enumerable.Range(0,GridList[week].Children.Count))
 				{
-					content.Append(course[0].Text + course[1].Text + Environment.NewLine);
+					content.Append($"Week {week}, Day {(day/3)+1}, Meal {(day%3)+1}: ");
+					foreach(Inline line in (GridList[week].Children[day] as TextBlock)!.Inlines)
+					{
+						if(line is Run)
+						{
+							content.Append($" {(line as Run)!.Text}");
+						}
+					}
+					content.Append('\n');
 				}
-			}*/
+			}
 			return content.ToString();
 		}
 

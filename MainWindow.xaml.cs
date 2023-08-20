@@ -78,6 +78,7 @@ namespace Essensplangenerator
 			{
 				AllowRepeatingRecipes = AllowRepeatableRecipes.IsChecked ?? false,
 				MealsInADay = int.Parse(MealsInDay.Text),
+				WeeksToGenerate = int.Parse(WeeksToGenerate.Text),
 			};
 
 			foreach(CheckBox checkBox in (from CheckBox recipe in SavedRecipeList.Children where (recipe.IsChecked ?? false) select recipe))
@@ -88,13 +89,14 @@ namespace Essensplangenerator
 
 			//Readiness checks
 			//This check is to prevent users from accidentally crashing or inducing unexpected behavior by not supplying enough recipes to not use AllowRepeatingRecipes
-			if(GenerationOptions.MealsInADay * 7 >= GenerationOptions.RecipesToUse.Count && !GenerationOptions.AllowRepeatingRecipes)
+			if(GenerationOptions.MealsInADay * 7 * GenerationOptions.WeeksToGenerate >= GenerationOptions.RecipesToUse.Count && !GenerationOptions.AllowRepeatingRecipes)
 			{
-				MessageBox.Show($"The required number of {GenerationOptions.MealsInADay * 7} Recipes is not met. Add more recipes or allow repeating recipes.");
+				MessageBox.Show($"The required number of {GenerationOptions.MealsInADay * 7 * GenerationOptions.WeeksToGenerate} Recipes is not met. Add more recipes or allow repeating recipes.");
 			}
 			else
 			{
-				new GeneratedPlanWindow(GenerationOptions).ShowDialog();
+				GeneratedPlanWindow plan = new(GenerationOptions);
+				plan.ShowDialog();
 			}
 		}
 
@@ -124,6 +126,12 @@ namespace Essensplangenerator
 			Close();
 		}
 
+		/// <summary>
+		/// Used to restrict user input for the <see cref="TextBox"/> <see cref="MealsInDay"/> and <see cref="WeeksToGenerate"/>.
+		/// Restricts the user to numbers.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ValidateInput(object sender, TextCompositionEventArgs e)
 		{
 			Regex Valid = new("[^0-9.-]+");
