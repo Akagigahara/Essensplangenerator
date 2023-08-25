@@ -17,7 +17,7 @@ namespace Essensplangenerator
 	public partial class GeneratedPlanWindow : Window
 	{
 		private int Week = 0;
-		private List<Grid> GridList = new();
+		private readonly List<Grid> GridList = new();
 
 		/// <summary>
 		/// Function to initialize the GeneratedPlan Window
@@ -93,11 +93,11 @@ namespace Essensplangenerator
 			}
 		}
 
-		/// <summary>
-		/// An event function that changes the current week displayed.
-		/// </summary>
-		/// <param name="sender">The button that sends the event.</param>
-		/// <param name="e">Unused.</param>
+		/// <summary>	An event function that changes the current week displayed. </summary>
+		///
+		/// <param name="sender">	The button that sends the event. </param>
+		/// <param name="e">	 	Unused. </param>
+
 		private void ChangeWeek(object sender, RoutedEventArgs e)
 		{
 			Button trigger = (sender as Button)!; //narrows down what type of object sender will be.

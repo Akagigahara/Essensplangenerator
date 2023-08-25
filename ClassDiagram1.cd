@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Essensplangenerator.AddRecipeWindow" BaseTypeListCollapsed="true">
-    <Position X="4.75" Y="4.5" Width="1.5" />
+    <Position X="5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAIgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AddRecipeWindow.xaml.cs</FileName>
@@ -9,7 +9,7 @@
     <Lollipop Position="0.1" />
   </Class>
   <Class Name="Essensplangenerator.GeneratedPlanWindow" BaseTypeListCollapsed="true">
-    <Position X="8.25" Y="1.25" Width="1.5" />
+    <Position X="8" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ARABAAAAAAAAAAAAAAAIAAAAAIAAAAAAAAAAAMAAAAA=</HashCode>
       <FileName>GeneratedPlanWindow.xaml.cs</FileName>
@@ -17,7 +17,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Essensplangenerator.MainWindow" BaseTypeListCollapsed="true">
-    <Position X="4.75" Y="1.25" Width="1.5" />
+    <Position X="5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAACAAMIAAAACAgAAAAAAAAIAAAAAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
@@ -25,7 +25,7 @@
     <Lollipop Position="0.175" />
   </Class>
   <Class Name="Essensplangenerator.Recipe">
-    <Position X="6.5" Y="3" Width="1.5" />
+    <Position X="6.5" Y="2.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -42,7 +42,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Essensplangenerator.RecipeFileHandler">
-    <Position X="8.25" Y="4.25" Width="1.5" />
+    <Position X="8" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAEAAAAAAAAgAAAAAAAAAEAAAA=</HashCode>
       <FileName>RecipeFileHandler.cs</FileName>
@@ -55,6 +55,13 @@
       <FileName>RemoveRecipeWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Essensplangenerator.GenerationOptions">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEgAAAAAAAAAAAAAAAAAQAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>GenerationOptions.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -89,7 +89,7 @@ namespace Essensplangenerator
 
 			//Readiness checks
 			//This check is to prevent users from accidentally crashing or inducing unexpected behavior by not supplying enough recipes to not use AllowRepeatingRecipes
-			if(GenerationOptions.MealsInADay * 7 * GenerationOptions.WeeksToGenerate >= GenerationOptions.RecipesToUse.Count && !GenerationOptions.AllowRepeatingRecipes)
+			if(GenerationOptions.MealsInADay * 7 * GenerationOptions.WeeksToGenerate > GenerationOptions.RecipesToUse.Count && !GenerationOptions.AllowRepeatingRecipes)
 			{
 				MessageBox.Show($"The required number of {GenerationOptions.MealsInADay * 7 * GenerationOptions.WeeksToGenerate} Recipes is not met. Add more recipes or allow repeating recipes.");
 			}

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Essensplangenerator
 {
 	/// <summary>
-	/// A class dedicated
+	/// A class dedicated to the options for the generation of a plan
 	/// </summary>
 	public class GenerationOptions
 	{
