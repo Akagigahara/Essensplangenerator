@@ -5,6 +5,9 @@ using System.Windows.Controls;
 
 namespace Essensplangenerator
 {
+	/// <summary>
+	/// Interaction logic for the RemoveRecipeWindow
+	/// </summary>
 
 	public partial class RemoveRecipeWindow : Window
 	{
